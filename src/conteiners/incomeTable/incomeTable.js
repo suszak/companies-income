@@ -1,31 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { Component } from 'react'
 import './incomeTable.css'
+import TableItem from '../../components/tableItem/tableItem'
 
-const fetchSummaryData = async () => {
-    try {
-        const response = await fetch(`https://recruitment.hal.skygate.io/companies`);
-        if(response.status === 200) {
-            return await response.json()
-        }
-    } catch(error) {
-        console.error(error);
+class IncomeTable extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      dataArray: [],
     }
-}
-
-const IncomeTable = () => {
-    useEffect(() => {
-        async function getData() {
-            const contentTable = await fetchSummaryData()
-            console.log(contentTable[1])
-        }
-        getData()
-    }, [])
-
-    return (
-        <div>
-            <header><h1>companies:</h1></header>
-        </div>
+  }
+  
+  render() {
+    return(
+      <section className='incomeTable'>
+        <ul className='table'>
+          {(this.props.sorted && this.props.data[0].length !== 0)?this.props.data[0].map((el) =>  
+            <TableItem key={el.id} id={el.id} name={el.name} city={el.city} totalIncome={el.totalIncome} />
+          ):<div>'Loading'</div>}
+        </ul> 
+      </section>
     )
+  }
 }
 
 export default IncomeTable
