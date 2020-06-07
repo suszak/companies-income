@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import IncomeTable from './conteiners/incomeTable/incomeTable'
+import LoadingScreen from './conteiners/loadingScreen/loadingScreen'
 
 class App extends Component {
   constructor(props) {
@@ -92,7 +93,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.state.sorted?<IncomeTable data={this.state.dataArray} downloading={this.state.downloading} sorted={this.state.sorted} />:"Loading..."}      
+        <LoadingScreen />
+        {/* {this.state.sorted?<IncomeTable data={this.state.dataArray} downloading={this.state.downloading} sorted={this.state.sorted} />:"Loading..."}       */}
       </div>
     )
   }
