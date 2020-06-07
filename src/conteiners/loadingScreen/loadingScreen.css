@@ -35,6 +35,10 @@
           animation: 3s loading infinite ease-in-out both;
 }
 
+.loadingScreen__animation div:last-child {
+  margin: 0;
+}
+
 .loadingScreen__animation .element2 {
   -webkit-animation-delay: .2s;
           animation-delay: .2s;
