@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import './App.css'
-import IncomeTable from './conteiners/incomeTable/incomeTable'
 import LoadingScreen from './conteiners/loadingScreen/loadingScreen'
+import Loaded from './conteiners/loaded/loaded'
+import readVh from './functions'
 
 class App extends Component {
   constructor(props) {
@@ -74,6 +75,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    readVh()
     this.setState({ dataArray: await this.getIncomeData(await this.getSummaryData()), downloading: false })
   }
 
@@ -93,8 +95,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <LoadingScreen />
-        {/* {this.state.sorted?<IncomeTable data={this.state.dataArray} downloading={this.state.downloading} sorted={this.state.sorted} />:"Loading..."}       */}
+        {(this.state.sorted)?<Loaded />:<LoadingScreen />}
       </div>
     )
   }

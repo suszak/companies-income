@@ -12,6 +12,8 @@ const LoadingScreen = () => {
                 <div className='element4'></div>
                 <div className='element5'></div>
             </span>
+            <div className='background background__first'></div>
+            <div className='background background__second'></div>
         </section>
     )
 }
