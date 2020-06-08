@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import './loaded.css'
 import IncomeTable from '../incomeTable/incomeTable'
 import Pages from '../../components/pages/pages'
@@ -32,15 +33,24 @@ const Loaded = ({data, numberOfItems}) => {
     }
 
     useEffect((prevProps, prevState) => {
+        if(!prevState) {
+            document.querySelector('#filter').addEventListener("keydown", (e) => {
+                if(e.keyCode === 13) {
+                    filter()
+                }
+            })
+        }
+
         if(!prevState || prevState.dataToShow.length !== data[0].length) {
             setDataToShow(data[0])
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
 
     return(
         <section className='loaded'>
             <header className='header'>
-                <h1 className='header__text'>Companies</h1>
+                <Link to='/companies-income/' className='header__text'><h1 className='header__text'>Companies</h1></Link>
             </header>
 
             <main className='main'>

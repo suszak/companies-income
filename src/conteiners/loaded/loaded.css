@@ -31,6 +31,7 @@
 .loaded .header__text {
   font-size: 4rem;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .loaded .main {

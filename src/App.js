@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.css'
 import LoadingScreen from './conteiners/loadingScreen/loadingScreen'
 import Loaded from './conteiners/loaded/loaded'
 import readVh from './functions'
+import Company from './conteiners/company/company'
 
 class App extends Component {
   constructor(props) {
@@ -75,6 +77,9 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    window.addEventListener('resize', () => {
+      readVh()
+    })
     const numberOfItems = readVh()
     this.setState({ dataArray: await this.getIncomeData(await this.getSummaryData()), numberOfItems: numberOfItems})
   }
@@ -94,9 +99,21 @@ class App extends Component {
 
   render() {
     return (
+      <Router>
       <div className="App">
-        {(this.state.sorted)?<Loaded data={this.state.dataArray} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
+          <Switch>
+            <Route exact path='/'>
+              {(this.state.sorted)?<Loaded data={this.state.dataArray} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
+            </Route>
+            <Route exact path='/companies-income/'>
+              {(this.state.sorted)?<Loaded data={this.state.dataArray} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
+            </Route>
+            <Route path='/company/:id'>
+              {(this.state.sorted)?<Company data={this.state.dataArray} />:<LoadingScreen />}
+            </Route>
+          </Switch>
       </div>
+      </Router>
     )
   }
 }

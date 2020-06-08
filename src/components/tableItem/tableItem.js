@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './tableItem.css'
 import { ReactComponent as OpenSite } from '../../images/open white.svg'
 
@@ -15,7 +16,7 @@ const TableItem = (props) => {
                     <p className='tableItem__element'>{props.totalIncome}</p>        
                 </div>
             </div>
-            <OpenSite className='tableItem__open' />
+            <Link to={`/company/${props.id}`} className='tableItem__open' ><OpenSite className='tableItem__open' /></Link>
         </div>
     )
 }
