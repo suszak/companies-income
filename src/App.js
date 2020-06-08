@@ -9,8 +9,8 @@ class App extends Component {
     super(props)
     this.state = {
       dataArray: [],
-      downloading: true,
-      sorted: false
+      sorted: false,
+      numberOfItems: 5
     }
   }
 
@@ -75,8 +75,8 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    readVh()
-    this.setState({ dataArray: await this.getIncomeData(await this.getSummaryData()), downloading: false })
+    const numberOfItems = readVh()
+    this.setState({ dataArray: await this.getIncomeData(await this.getSummaryData()), numberOfItems: numberOfItems})
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -86,7 +86,7 @@ class App extends Component {
       //  Wait until all data loads
       while(length !== this.state.dataArray[0].length) {
         length = this.state.dataArray[0].length
-        await new Promise(r => setTimeout(r, 300))
+        await new Promise(r => setTimeout(r, 5000))
       }
       this.setState({ dataArray: this.sortArrayByTotalIncome(this.state.dataArray), sorted: true})
     }
@@ -95,7 +95,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {(this.state.sorted)?<Loaded />:<LoadingScreen />}
+        {(this.state.sorted)?<Loaded data={this.state.dataArray} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
       </div>
     )
   }

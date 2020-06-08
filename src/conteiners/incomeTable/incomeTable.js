@@ -3,20 +3,24 @@ import './incomeTable.css'
 import TableItem from '../../components/tableItem/tableItem'
 
 class IncomeTable extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      dataArray: [],
-    }
-  }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     dataArray: [],
+  //   }
+  // }
   
+  // componentDidMount() {
+  //   this.setState({dataArray: this.props.data})
+  // }
+
   render() {
     return(
       <section className='incomeTable'>
         <ul className='table'>
-          {(this.props.sorted && this.props.data[0].length !== 0)?this.props.data[0].map((el) =>  
+          {(this.props.currentCompanies.length !== 0)?this.props.currentCompanies.map((el) =>  
             <TableItem key={el.id} id={el.id} name={el.name} city={el.city} totalIncome={el.totalIncome} />
-          ):<div>'Loading'</div>}
+          ):<p className='table__error'>Nothing to show</p>}
         </ul> 
       </section>
     )

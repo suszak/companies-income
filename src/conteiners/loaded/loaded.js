@@ -1,7 +1,42 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './loaded.css'
+import IncomeTable from '../incomeTable/incomeTable'
+import Pages from '../../components/pages/pages'
 
-const Loaded = () => {
+const Loaded = ({data, numberOfItems}) => {
+    const [currentPage, setCurrentPage] = useState(1)
+    const [companiesPerPage] = useState(numberOfItems) //   Read from readVh in functions.js
+    const [dataToShow, setDataToShow] = useState([])
+    
+    const indexOfLastPost = currentPage * companiesPerPage
+    const indexOfFirstPost = indexOfLastPost - companiesPerPage
+    const currentCompanies = dataToShow.slice(indexOfFirstPost, indexOfLastPost)
+    const totalPages = Math.ceil(dataToShow.length / companiesPerPage)
+    
+    //  Change page
+    const paginate = pageNumber => {
+        setCurrentPage(pageNumber)
+    }
+
+    //  Filter results
+    const filter = () => {
+        const filterValue = document.querySelector('#filter').value;
+        if(filterValue.length > 0) {
+            const result = data[0].filter(company => company.name.toUpperCase().indexOf(filterValue.toUpperCase()) !== -1)
+            setDataToShow(result)
+            setCurrentPage(1)
+        } else {
+            setDataToShow(data[0])
+            setCurrentPage(1)
+        }
+    }
+
+    useEffect((prevProps, prevState) => {
+        if(!prevState || prevState.dataToShow.length !== data[0].length) {
+            setDataToShow(data[0])
+        }
+    }, [data])
+
     return(
         <section className='loaded'>
             <header className='header'>
@@ -9,7 +44,12 @@ const Loaded = () => {
             </header>
 
             <main className='main'>
-
+                <section className='search'>
+                    <input type='text' id='filter' className='search__input' placeholder='Type company name here...' ></input>
+                    <button className='search__button' onClick={filter} >Filter</button>
+                </section>
+                <IncomeTable data={dataToShow} currentCompanies={currentCompanies} />
+                {(totalPages > 1)?<Pages currentPage={currentPage} totalPages={totalPages} paginate={paginate} />:''}
             </main>
 
             <footer className='footer'>

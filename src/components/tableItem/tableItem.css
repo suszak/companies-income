@@ -1,1 +1,68 @@
-/* No CSS *//*# sourceMappingURL=tableItem.css.map */
+.tableItem {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 0, 0.5);
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 70px;
+      grid-template-columns: 1fr 70px;
+  -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+  height: 100px;
+  width: 80%;
+  margin-bottom: 10px;
+}
+
+.tableItem .wrapper {
+  -ms-grid-column: 1;
+  grid-column: 1;
+  -ms-grid-row: 1;
+  grid-row: 1;
+  height: 100%;
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -ms-grid-columns: (minmax(200px, 1fr))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.tableItem .elements {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.tableItem__element {
+  width: 50%;
+  font-size: 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+}
+
+.tableItem__open {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 1;
+  grid-row: 1;
+  height: 30px;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  width: auto;
+}
+/*# sourceMappingURL=tableItem.css.map */

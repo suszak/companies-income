@@ -10,11 +10,16 @@
     z-index: 1;
 
     &__title {
-        color: white;
         font-size: 4rem;
     }
 
+    &__info {
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
     &__animation {
+        margin-top: 15px;
         div {
             animation: 2.2s loading infinite ease-in-out both;
             background-color: white;
@@ -63,15 +68,15 @@
 
     &__first {
         border-top: 50vh solid yellow;
-        border-left: 40vw solid transparent;
-        right: 0;
+        border-right: 40vw solid transparent;
+        left: 0;
         top: 0;
     }
 
     &__second {
         border-bottom: 50vh solid yellow;
-        border-right: 40vw solid transparent;
-        left: 0;
+        border-left: 40vw solid transparent;
+        right: 0;
         bottom: 0;
     }
 }
