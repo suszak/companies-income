@@ -19,7 +19,10 @@ Project is created with:
 ## How to run
 To run this project, use npm:
 
-* Download this app from master branch
+* Clone this app from master branch
+```
+git clone https://github.com/suszak/companies-income.git
+```
 * Open cmd in downloaded directory
 * Type in cmd:
 
