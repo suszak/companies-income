@@ -49,7 +49,7 @@ const Loaded = ({data, numberOfItems}) => {
                     <button className='search__button' onClick={filter} >Filter</button>
                 </section>
                 <IncomeTable data={dataToShow} currentCompanies={currentCompanies} />
-                {(totalPages > 1)?<Pages currentPage={currentPage} totalPages={totalPages} paginate={paginate} />:''}
+                <Pages currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
             </main>
 
             <footer className='footer'>
