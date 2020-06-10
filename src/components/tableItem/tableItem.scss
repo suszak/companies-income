@@ -5,18 +5,17 @@
     grid-template-columns: 1fr 50px;
     grid-template-rows: 1fr;
     height: 100px;
-    width: 80%;
     margin-bottom: 10px;
-
+    width: 80%;
 
     .wrapper {
+        align-content: center;
+        display: grid;
         grid-column: 1;
         grid-row: 1;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         height: 100%;
         width: 100%;
-        display: grid;
-        align-content: center;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 
     .elements {
@@ -25,12 +24,12 @@
     }
 
     &__element {
-        width: 50%;
-        font-size: 1.5rem;
-        display: flex;
-        justify-content: center;
         align-items: center;
+        display: flex;
+        font-size: 1.5rem;
+        justify-content: center;
         text-align: center;
+        width: 50%;
     }
 
     &__open {

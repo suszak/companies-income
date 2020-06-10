@@ -35,8 +35,7 @@ class App extends Component {
     return array
   }
 
-  //  Getting data from second API (id, incomes {date, value}), data save into state.incomeArray
-  //  Remake state.companiesArray - added totalIncome to each object
+  //  Getting data from second API (id, incomes {date, value})
   getIncomeData = async () => {
       if(this.state.companies.length > 0) {
         Promise.all(
@@ -57,6 +56,7 @@ class App extends Component {
     }
   }
 
+  //  Count total incomes and insert them to each object in companies
   countTotalIncomes = () => {
     const companies = this.state.companies
     const incomes = this.state.incomes
@@ -77,7 +77,7 @@ class App extends Component {
     this.setState({ companies: newCompanies, loading: false })
   }
 
-  //  Sorting state.companiesArray by totalIncome desc
+  //  Sorting state.companies by totalIncome desc
   sortArrayByTotalIncome = () => {
     const companies = this.state.companies
     const sortedArray = companies.sort((a,b) => {
@@ -86,6 +86,7 @@ class App extends Component {
     this.setState({companies: sortedArray, sorted: true})
   }
 
+  //  Download data from first API, calculate vh and calculate numberOfItems
   async componentDidMount() {
     window.addEventListener('resize', () => {
       readVh()
@@ -94,17 +95,21 @@ class App extends Component {
     this.setState({ companies: await this.getSummaryData(), numberOfItems: numberOfItems})
   }
 
-  async componentDidUpdate(prevProps, prevState) {
+
+  async componentDidUpdate(_prevProps, prevState) {
+    //  Get income data after getting companies
     if(prevState.companies.length !== this.state.companies.length) { 
       if(this.state.companies.length > 0) {
         this.getIncomeData(this.state.companies)
       }
     }
 
+    //  Count total incomes after getting incomes
     if(prevState.incomes.length !== this.state.incomes.length && this.state.incomes.length > 0) {
       this.countTotalIncomes()
     }
 
+    //  Sort companies after total incomes count
     if(this.state.companies.length > 0){
       if(!this.state.loading && !this.state.sorted && this.state.companies[0].totalIncome) {
         this.sortArrayByTotalIncome()

@@ -14,8 +14,8 @@
     }
 
     &__info {
-        text-align: center;
         font-size: 1.5rem;
+        text-align: center;
     }
 
     &__animation {
@@ -39,8 +39,6 @@
             }
         }
 
-        
-
         .element2 {
             animation-delay: .2s;
         }
@@ -61,14 +59,14 @@
 
 .background {
     height: 0;
-    position: absolute;
     opacity: 0.4;
+    position: absolute;
     width: 0;
     z-index: -1;
 
     &__first {
-        border-top: 50vh solid yellow;
         border-right: 40vw solid transparent;
+        border-top: 50vh solid yellow;
         left: 0;
         top: 0;
     }
@@ -76,8 +74,8 @@
     &__second {
         border-bottom: 50vh solid yellow;
         border-left: 40vw solid transparent;
-        right: 0;
         bottom: 0;
+        right: 0;
     }
 }
 

@@ -1,28 +1,28 @@
 .pages {
+    align-items: center;
     background-color: rgba(0,0,0,0.5);
+    bottom: 5px;
     display: flex;
     flex-direction: row;
     height: 50px;
-    width: 80%;
     justify-content: space-around;
-    align-items: center;
     list-style-type: none;
     position: absolute;
-    bottom: 5px;
+    width: 80%;
 
     &__number {
-        height: 30px;
-        width: 30px;
+        align-items: center;
         border: 1px solid white;
         border-radius: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         cursor: pointer;
+        display: flex;
+        height: 30px;
+        justify-content: center;
+        width: 30px;
 
         &--current {
-            border-color: yellow;
             background-color: rgba(255,255,0,0.3);
+            border-color: yellow;
         }
     }
 
@@ -38,5 +38,4 @@
         border: none;
         cursor: default;
     }
-
 }

@@ -1,11 +1,11 @@
 .loaded {
-    position: relative;
-    width: 100%;
-    height: 100%;
     display: grid;
+    background-color: black;
     grid-template-columns: 1fr;
     grid-template-rows: 10vh 1fr 5vh;
-    background-color: black;
+    height: 100%;
+    position: relative;
+    width: 100%;
     z-index: 1;
 
     .header {
@@ -23,48 +23,48 @@
     }
 
     .main {
-        grid-column: 1;
-        grid-row: 2;
+        align-items: center;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        grid-column: 1;
+        grid-row: 2;
         justify-content: center;
-        position: relative;
-        padding-top: 40px;
         padding-bottom: 50px;
+        padding-top: 40px;
+        position: relative;
 
         nav {
-            width: 100%;
+            align-items: center;
             display: flex;
             justify-content: center;
-            align-items: center;
+            width: 100%;
         }
 
         .search {
-            width: 80%;
-            margin-bottom: 15px;
             height: 30px;
+            margin-bottom: 15px;
             position: absolute;
             top: 5px;
+            width: 80%;
 
             &__input {
-                height: 30px;
-                width: 70%;
                 background-color: transparent;
                 border: 1px solid rgba(255,255,0,0.5);
-                margin-right: 10%;
                 font-size: 1.5rem;
+                height: 30px;
+                margin-right: 10%;
                 padding-left: 2%;
+                width: 70%;
             }
 
             &__button {
-                height: 30px;
-                width: 20%;
-                color: black;
-                font-size: 1.5rem;
-                cursor: pointer;
                 background-color: rgba(255,255,255,0.7);
                 border: 1px solid black;
+                color: black;
+                cursor: pointer;
+                font-size: 1.5rem;
+                height: 30px;
+                width: 20%;
 
                 @media only screen and (min-width: 768px) {
                     transition: all .5s;
@@ -80,10 +80,10 @@
     }
 
     .footer {
+        align-items: center;
+        display: flex;
         grid-column: 1;
         grid-row: 3;
-        display: flex;
-        align-items: center;
         justify-content: center;
         position: relative;
 
@@ -92,14 +92,14 @@
         }
 
         &::before {
-            content: '';
-            position: absolute;
-            height: 5px;
-            width: 100%;
-            border-top: 1px solid yellow;
             border-bottom: 1px solid yellow;
-            top: 0;
+            border-top: 1px solid yellow;
+            content: '';
+            height: 5px;
             left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
         }
     }
 
@@ -115,4 +115,3 @@
         z-index: -1;
     }
 }
-

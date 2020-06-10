@@ -7,22 +7,21 @@
           url('./fonts/jost/jost-variablefont_italwght-webfont.woff2') format('woff2'),
           url('./fonts/jost/jost-variablefont_italwght-webfont.woff') format('woff'),
           url('./fonts/jost/jost-variablefont_italwght-webfont.svg#jostregular') format('svg');
-    font-weight: normal;
     font-style: normal;
-  
+    font-weight: normal;
   }
   
   :root {
-    overflow: hidden;
     font-size: 10px;
+    overflow: hidden;
   }
   
   *, *::after, *::before {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     color: white;
     font-family: Jost;
     font-weight: normal;
+    margin: 0;
+    padding: 0;
     user-select: none;
   }

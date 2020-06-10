@@ -3,17 +3,6 @@ import './incomeTable.css'
 import TableItem from '../../components/tableItem/tableItem'
 
 class IncomeTable extends Component {
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-  //     dataArray: [],
-  //   }
-  // }
-  
-  // componentDidMount() {
-  //   this.setState({dataArray: this.props.data})
-  // }
-
   render() {
     return(
       <section className='incomeTable'>

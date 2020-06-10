@@ -1,5 +1,9 @@
 .pages {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
+  bottom: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -8,37 +12,33 @@
       -ms-flex-direction: row;
           flex-direction: row;
   height: 50px;
-  width: 80%;
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   list-style-type: none;
   position: absolute;
-  bottom: 5px;
+  width: 80%;
 }
 
 .pages__number {
-  height: 30px;
-  width: 30px;
-  border: 1px solid white;
-  border-radius: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  border: 1px solid white;
+  border-radius: 5px;
   cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 30px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 30px;
 }
 
 .pages__number--current {
-  border-color: yellow;
   background-color: rgba(255, 255, 0, 0.3);
+  border-color: yellow;
 }
 
 .pages__item {
