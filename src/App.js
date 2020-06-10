@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import axios from 'axios'
 import './App.css'
 import LoadingScreen from './conteiners/loadingScreen/loadingScreen'
 import Loaded from './conteiners/loaded/loaded'
@@ -11,20 +12,22 @@ class App extends Component {
     super(props)
     this.state = {
       dataArray: [],
+      companies: [],
+      incomes: [],
       sorted: false,
-      numberOfItems: 5
+      numberOfItems: 5,
+      loading: true
     }
   }
 
   //  Getting data from first API (city, id, name), data save into state.companiesArray
   getSummaryData = async () => {
-    const array = []
+    let array = []
 
     try {
         const response = await fetch(`https://recruitment.hal.skygate.io/companies`);
-        if(response.status === 200) {
-            const data = await response.json();
-            array.push(data)
+        if(response.ok) {
+            array = await response.json();
         }
     } catch(error) {
         console.error(error);
@@ -34,46 +37,53 @@ class App extends Component {
 
   //  Getting data from second API (id, incomes {date, value}), data save into state.incomeArray
   //  Remake state.companiesArray - added totalIncome to each object
-  getIncomeData = async (companies) => {
-    companies = companies[0]
-    const newCompanies = []
-    const incomes = []
+  getIncomeData = async () => {
+      if(this.state.companies.length > 0) {
+        Promise.all(
+          this.state.companies.map(
+            el => axios(`https://recruitment.hal.skygate.io/incomes/${el.id}`)
+          )
+        ).then(
+          responses => Promise.all(
+            responses.map(
+              res => res.data
+            )
+          ).then(
+            data => {
+              this.setState({ incomes: data })
+            }
+          )
+        )
+    }
+  }
 
-    companies.map(async el => {
-      let temp = {}
-      let sum = 0
-      try {
-        const response = await fetch(`https://recruitment.hal.skygate.io/incomes/${el.id}`);
-        if(response.status === 200) {
-            const data = await response.json();
-            incomes.push(data)
-            sum = 0;
-            data.incomes.map(income => {
-              sum += parseFloat(income.value)
-              return data
-            })
-            temp = {...el, totalIncome: parseFloat(sum.toFixed(2))}
-            newCompanies.push(temp)
-            return 0
-        }
-      } catch(error) {
-        console.error(error);
-        return 0
+  countTotalIncomes = () => {
+    const companies = this.state.companies
+    const incomes = this.state.incomes
+    const newCompanies = []
+
+    companies.map((company, index) => {
+      let sum = 0;
+      if(company.id === incomes[index].id) {
+        incomes[index].incomes.map(el => {
+          sum += parseFloat(el.value)
+          return el
+        })
+        newCompanies.push({...company, totalIncome: sum.toFixed(2)})
       }
+      return company
     })
-    return [newCompanies, incomes]
+
+    this.setState({ companies: newCompanies, loading: false })
   }
 
   //  Sorting state.companiesArray by totalIncome desc
-  sortArrayByTotalIncome = (array) => {
-    if(array.length > 0) {
-      const companies = array[0]
-      const incomes = array[1]
-      const sortedArray = companies.sort((a,b) => {
-        return b.totalIncome - a.totalIncome
-      })
-      return [sortedArray, incomes]
-    }
+  sortArrayByTotalIncome = () => {
+    const companies = this.state.companies
+    const sortedArray = companies.sort((a,b) => {
+      return b.totalIncome - a.totalIncome
+    })
+    this.setState({companies: sortedArray, sorted: true})
   }
 
   async componentDidMount() {
@@ -81,19 +91,24 @@ class App extends Component {
       readVh()
     })
     const numberOfItems = readVh()
-    this.setState({ dataArray: await this.getIncomeData(await this.getSummaryData()), numberOfItems: numberOfItems})
+    this.setState({ companies: await this.getSummaryData(), numberOfItems: numberOfItems})
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    if(prevState.dataArray.length !== this.state.dataArray.length)
-    { 
-      let length = -100
-      //  Wait until all data loads
-      while(length !== this.state.dataArray[0].length) {
-        length = this.state.dataArray[0].length
-        await new Promise(r => setTimeout(r, 5000))
+    if(prevState.companies.length !== this.state.companies.length) { 
+      if(this.state.companies.length > 0) {
+        this.getIncomeData(this.state.companies)
       }
-      this.setState({ dataArray: this.sortArrayByTotalIncome(this.state.dataArray), sorted: true})
+    }
+
+    if(prevState.incomes.length !== this.state.incomes.length && this.state.incomes.length > 0) {
+      this.countTotalIncomes()
+    }
+
+    if(this.state.companies.length > 0){
+      if(!this.state.loading && !this.state.sorted && this.state.companies[0].totalIncome) {
+        this.sortArrayByTotalIncome()
+      }
     }
   }
 
@@ -103,13 +118,13 @@ class App extends Component {
       <div className="App">
           <Switch>
             <Route exact path='/'>
-              {(this.state.sorted)?<Loaded data={this.state.dataArray} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
+              {(this.state.sorted)?<Loaded company={this.state.companies} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
             </Route>
             <Route exact path='/companies-income/'>
-              {(this.state.sorted)?<Loaded data={this.state.dataArray} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
+              {(this.state.sorted)?<Loaded company={this.state.companies} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
             </Route>
             <Route path='/company/:id'>
-              {(this.state.sorted)?<Company data={this.state.dataArray} />:<LoadingScreen />}
+              {(this.state.sorted)?<Company data={[this.state.companies, this.state.incomes]} />:<LoadingScreen />}
             </Route>
           </Switch>
       </div>

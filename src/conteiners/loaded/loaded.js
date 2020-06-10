@@ -4,7 +4,7 @@ import './loaded.css'
 import IncomeTable from '../incomeTable/incomeTable'
 import Pages from '../../components/pages/pages'
 
-const Loaded = ({data, numberOfItems}) => {
+const Loaded = ({company, numberOfItems}) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [companiesPerPage] = useState(numberOfItems) //   Read from readVh in functions.js
     const [dataToShow, setDataToShow] = useState([])
@@ -23,11 +23,11 @@ const Loaded = ({data, numberOfItems}) => {
     const filter = () => {
         const filterValue = document.querySelector('#filter').value;
         if(filterValue.length > 0) {
-            const result = data[0].filter(company => company.name.toUpperCase().indexOf(filterValue.toUpperCase()) !== -1)
+            const result = company.filter(company => company.name.toUpperCase().indexOf(filterValue.toUpperCase()) !== -1)
             setDataToShow(result)
             setCurrentPage(1)
         } else {
-            setDataToShow(data[0])
+            setDataToShow(company)
             setCurrentPage(1)
         }
     }
@@ -41,11 +41,11 @@ const Loaded = ({data, numberOfItems}) => {
             })
         }
 
-        if(!prevState || prevState.dataToShow.length !== data[0].length) {
-            setDataToShow(data[0])
+        if(!prevState || prevState.company.length !== company.length) {
+            setDataToShow(company)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data])
+    }, [company])
 
     return(
         <section className='loaded'>

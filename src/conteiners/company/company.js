@@ -68,7 +68,12 @@ const Company = ({data}) => {
                 setCompanyInfo(filterTable(data[0]))
             if(incomes.length > 0){
                 countTotalIncomes()
-                countIncomes(startDate, endDate)    
+                countIncomes(startDate, endDate)
+                const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' }) 
+                const [{ value: monthStart },,{ value: dayStart },,{ value: yearStart }] = dateTimeFormat.formatToParts(startDate)
+                const [{ value: monthEnd },,{ value: dayEnd },,{ value: yearEnd }] = dateTimeFormat.formatToParts(endDate)
+                document.querySelector('#startDate').value = `${yearStart}-${monthStart}-${dayStart}`
+                document.querySelector('#endDate').value = `${yearEnd}-${monthEnd}-${dayEnd}`
             }
         }
           
