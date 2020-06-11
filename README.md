@@ -27,8 +27,9 @@ git clone https://github.com/suszak/companies-income.git
 * Type in cmd:
 
 ```
+$ npm install
 $ npm start
 ```
 
 * Open site in your browser with:
-http://localhost:3000
+http://localhost:3000/companies-income
