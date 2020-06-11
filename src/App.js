@@ -1,5 +1,11 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import React, {
+  Component
+} from 'react'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom'
 import axios from 'axios'
 import './App.css'
 import LoadingScreen from './conteiners/loadingScreen/loadingScreen'
@@ -25,34 +31,41 @@ class App extends Component {
     let array = []
 
     try {
-        const response = await fetch(`https://recruitment.hal.skygate.io/companies`);
-        if(response.ok) {
-            array = await response.json();
-        }
-    } catch(error) {
-        console.error(error);
+      const response = await fetch(`https://recruitment.hal.skygate.io/companies`);
+      if (response.ok) {
+        array = await response.json();
+      }
+    } catch (error) {
+      console.error(error);
     }
     return array
   }
 
   //  Getting data from second API (id, incomes {date, value})
   getIncomeData = async () => {
-      if(this.state.companies.length > 0) {
-        Promise.all(
-          this.state.companies.map(
-            el => axios(`https://recruitment.hal.skygate.io/incomes/${el.id}`)
+    if (this.state.companies.length > 0) {
+      Promise.all(
+        this.state.companies.map(
+          el => axios(`https://recruitment.hal.skygate.io/incomes/${el.id}`)
+        )
+      ).then(
+        responses => Promise.all(
+          responses.map(
+            res => res.data
           )
         ).then(
-          responses => Promise.all(
-            responses.map(
-              res => res.data
-            )
-          ).then(
-            data => {
-              this.setState({ incomes: data })
-            }
-          )
+          data => {
+            const filtered = data.filter(el => {
+              return el !== ""
+            })
+            this.setState({
+              incomes: filtered
+            })
+          }
         )
+      ).catch(error =>
+        console.error(error)
+      )
     }
   }
 
@@ -64,26 +77,37 @@ class App extends Component {
 
     companies.map((company, index) => {
       let sum = 0;
-      if(company.id === incomes[index].id) {
-        incomes[index].incomes.map(el => {
-          sum += parseFloat(el.value)
-          return el
-        })
-        newCompanies.push({...company, totalIncome: sum.toFixed(2)})
-      }
+      const income = incomes.find(el =>
+        el.id === company.id)
+
+      income.incomes.map(el => {
+        sum += parseFloat(el.value)
+        return el
+      })
+      newCompanies.push({
+        ...company,
+        totalIncome: sum.toFixed(2)
+      })
+
       return company
     })
 
-    this.setState({ companies: newCompanies, loading: false })
+    this.setState({
+      companies: newCompanies,
+      loading: false
+    })
   }
 
   //  Sorting state.companies by totalIncome desc
   sortArrayByTotalIncome = () => {
     const companies = this.state.companies
-    const sortedArray = companies.sort((a,b) => {
+    const sortedArray = companies.sort((a, b) => {
       return b.totalIncome - a.totalIncome
     })
-    this.setState({companies: sortedArray, sorted: true})
+    this.setState({
+      companies: sortedArray,
+      sorted: true
+    })
   }
 
   //  Download data from first API, calculate vh and calculate numberOfItems
@@ -92,26 +116,29 @@ class App extends Component {
       readVh()
     })
     const numberOfItems = readVh()
-    this.setState({ companies: await this.getSummaryData(), numberOfItems: numberOfItems})
+    this.setState({
+      companies: await this.getSummaryData(),
+      numberOfItems: numberOfItems
+    })
   }
 
 
   async componentDidUpdate(_prevProps, prevState) {
     //  Get income data after getting companies
-    if(prevState.companies.length !== this.state.companies.length) { 
-      if(this.state.companies.length > 0) {
+    if (prevState.companies.length !== this.state.companies.length) {
+      if (this.state.companies.length > 0) {
         this.getIncomeData(this.state.companies)
       }
     }
 
     //  Count total incomes after getting incomes
-    if(prevState.incomes.length !== this.state.incomes.length && this.state.incomes.length > 0) {
+    if (prevState.incomes.length !== this.state.incomes.length && this.state.incomes.length > 0) {
       this.countTotalIncomes()
     }
 
     //  Sort companies after total incomes count
-    if(this.state.companies.length > 0){
-      if(!this.state.loading && !this.state.sorted && this.state.companies[0].totalIncome) {
+    if (this.state.companies.length > 0) {
+      if (!this.state.loading && !this.state.sorted && this.state.companies[0].totalIncome) {
         this.sortArrayByTotalIncome()
       }
     }
@@ -120,7 +147,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-      <div className="App">
+        <div className="App">
           <Switch>
             <Route exact path='/'>
               {(this.state.sorted)?<Loaded company={this.state.companies} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
@@ -132,7 +159,7 @@ class App extends Component {
               {(this.state.sorted)?<Company data={[this.state.companies, this.state.incomes]} />:<LoadingScreen />}
             </Route>
           </Switch>
-      </div>
+        </div>
       </Router>
     )
   }
