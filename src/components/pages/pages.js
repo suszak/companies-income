@@ -10,11 +10,11 @@ const Pages = ({ currentPage, totalPages, paginate }) => {
           }
       } else if(currentPage - 2 <= 1 && currentPage + 1 < totalPages) {
           for(let i = 1; i <= 5; i++) {
-              pageNumbers.push(i)
+            pageNumbers.push(i)
           }
       } else if(currentPage - 2 > 1 && currentPage + 2 >= totalPages) {
           for(let i = totalPages - 4; i <= totalPages; i++) {
-              pageNumbers.push(i)
+            pageNumbers.push(i)
           }
       }
     } else {

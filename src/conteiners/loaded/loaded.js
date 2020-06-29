@@ -8,12 +8,12 @@ const Loaded = ({company, numberOfItems}) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [companiesPerPage] = useState(numberOfItems) //   Read from readVh in functions.js
     const [dataToShow, setDataToShow] = useState([])
-    
+
     const indexOfLastPost = currentPage * companiesPerPage
     const indexOfFirstPost = indexOfLastPost - companiesPerPage
     const currentCompanies = dataToShow.slice(indexOfFirstPost, indexOfLastPost)
     const totalPages = Math.ceil(dataToShow.length / companiesPerPage)
-    
+
     //  Change page
     const paginate = pageNumber => {
         setCurrentPage(pageNumber)
@@ -33,14 +33,6 @@ const Loaded = ({company, numberOfItems}) => {
     }
 
     useEffect((prevProps, prevState) => {
-        if(!prevState) {
-            document.querySelector('#filter').addEventListener("keydown", (e) => {
-                if(e.keyCode === 13) {
-                    filter()
-                }
-            })
-        }
-
         if(!prevState || prevState.company.length !== company.length) {
             setDataToShow(company)
         }
@@ -55,8 +47,7 @@ const Loaded = ({company, numberOfItems}) => {
 
             <main className='main'>
                 <section className='search'>
-                    <input type='text' id='filter' className='search__input' placeholder='Type company name here...' ></input>
-                    <button className='search__button' onClick={filter} >Filter</button>
+                    <input type='text' id='filter' onChange={filter} className='search__input' placeholder='Type company name here...' ></input>
                 </section>
                 <IncomeTable data={dataToShow} currentCompanies={currentCompanies} />
                 <Pages currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
@@ -65,7 +56,7 @@ const Loaded = ({company, numberOfItems}) => {
             <footer className='footer'>
                 <p className='footer__text'>Created by Mateusz Greń, 2020</p>
             </footer>
-            
+
             <span className='background'></span>
         </section>
     )
