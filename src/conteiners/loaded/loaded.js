@@ -6,7 +6,7 @@ import Pages from '../../components/pages/pages'
 
 const Loaded = ({company, numberOfItems}) => {
     const [currentPage, setCurrentPage] = useState(1)
-    const [companiesPerPage] = useState(numberOfItems) //   Read from readVh in functions.js
+    const [companiesPerPage] = useState(numberOfItems) //   Read from readVh in readingVh.js
     const [dataToShow, setDataToShow] = useState([])
 
     const indexOfLastPost = currentPage * companiesPerPage
@@ -32,10 +32,8 @@ const Loaded = ({company, numberOfItems}) => {
         }
     }
 
-    useEffect((prevProps, prevState) => {
-        if(!prevState || prevState.company.length !== company.length) {
-            setDataToShow(company)
-        }
+    useEffect(() => {
+        setDataToShow(company)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [company])
 
@@ -49,7 +47,7 @@ const Loaded = ({company, numberOfItems}) => {
                 <section className='search'>
                     <input type='text' id='filter' onChange={filter} className='search__input' placeholder='Type company name here...' ></input>
                 </section>
-                <IncomeTable data={dataToShow} currentCompanies={currentCompanies} />
+                <IncomeTable currentCompanies={currentCompanies} />
                 <Pages currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
             </main>
 

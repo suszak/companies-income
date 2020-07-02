@@ -1,33 +1,22 @@
-import React, {
-  Component
-} from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import axios from 'axios'
 import './App.css'
 import LoadingScreen from './conteiners/loadingScreen/loadingScreen'
 import Loaded from './conteiners/loaded/loaded'
-import readVh from './functions'
+import readVh from './helper/readingVh.js'
 import Company from './conteiners/company/company'
+import usePrevious from './helper/usePrevious.js'
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      dataArray: [],
-      companies: [],
-      incomes: [],
-      sorted: false,
-      numberOfItems: 5,
-      loading: true
-    }
-  }
+const App = () => {
+  const [companies, setCompanies] = useState([])
+  const [incomes, setIncomes] = useState([])
+  const [sorted, setSorted] = useState(false)
+  const [numberOfItems, setNumberOfItems] = useState(5)
+  const [loading, setLoading] = useState(true)
 
   //  Getting data from first API (city, id, name), data save into state.companiesArray
-  getSummaryData = async () => {
+  const getSummaryData = async () => {
     let array = []
 
     try {
@@ -38,14 +27,14 @@ class App extends Component {
     } catch (error) {
       console.error(error);
     }
-    return array
+    setCompanies(array)
   }
 
   //  Getting data from second API (id, incomes {date, value})
-  getIncomeData = async () => {
-    if (this.state.companies.length > 0) {
+  const getIncomeData = async () => {
+    if (companies.length > 0) {
       Promise.all(
-        this.state.companies.map(
+        companies.map(
           el => axios(`https://recruitment.hal.skygate.io/incomes/${el.id}`)
         )
       ).then(
@@ -58,9 +47,7 @@ class App extends Component {
             const filtered = data.filter(el => {
               return el !== ""
             })
-            this.setState({
-              incomes: filtered
-            })
+            setIncomes(filtered)
           }
         )
       ).catch(error =>
@@ -70,12 +57,9 @@ class App extends Component {
   }
 
   //  Count total incomes and insert them to each object in companies
-  countTotalIncomes = () => {
-    const companies = this.state.companies
-    const incomes = this.state.incomes
+  const countTotalIncomes = () => {
     const newCompanies = []
-
-    companies.map((company, index) => {
+    companies.map((company) => {
       let sum = 0;
       const income = incomes.find(el =>
         el.id === company.id)
@@ -92,77 +76,73 @@ class App extends Component {
       return company
     })
 
-    this.setState({
-      companies: newCompanies,
-      loading: false
-    })
+    setCompanies(newCompanies)
+    setLoading(false)
   }
 
   //  Sorting state.companies by totalIncome desc
-  sortArrayByTotalIncome = () => {
-    const companies = this.state.companies
+  const sortArrayByTotalIncome = () => {
     const sortedArray = companies.sort((a, b) => {
       return b.totalIncome - a.totalIncome
     })
-    this.setState({
-      companies: sortedArray,
-      sorted: true
-    })
+    setCompanies(sortedArray)
+    setSorted(true)
   }
 
   //  Download data from first API, calculate vh and calculate numberOfItems
-  async componentDidMount() {
+  const prevCompanies = usePrevious(companies)
+  const prevIncomes = usePrevious(incomes)
+  useEffect(() => {
     window.addEventListener('resize', () => {
       readVh()
     })
-    const numberOfItems = readVh()
-    this.setState({
-      companies: await this.getSummaryData(),
-      numberOfItems: numberOfItems
-    })
-  }
-
-
-  async componentDidUpdate(_prevProps, prevState) {
+    if(companies.length === 0) {
+      getSummaryData()
+      setNumberOfItems(readVh())
+    }
     //  Get income data after getting companies
-    if (prevState.companies.length !== this.state.companies.length) {
-      if (this.state.companies.length > 0) {
-        this.getIncomeData(this.state.companies)
+    if (prevCompanies) {
+      if (prevCompanies.length !== companies.length) {
+        if (companies.length > 0) {
+          getIncomeData(companies)
+        }
       }
     }
 
     //  Count total incomes after getting incomes
-    if (prevState.incomes.length !== this.state.incomes.length && this.state.incomes.length > 0) {
-      this.countTotalIncomes()
+    if(prevIncomes) {
+      if (prevIncomes.length !== incomes.length && incomes.length > 0) {
+        countTotalIncomes()
+      }
     }
 
     //  Sort companies after total incomes count
-    if (this.state.companies.length > 0) {
-      if (!this.state.loading && !this.state.sorted && this.state.companies[0].totalIncome) {
-        this.sortArrayByTotalIncome()
+    if (companies.length > 0) {
+      if (!loading && !sorted && companies[0].totalIncome) {
+        sortArrayByTotalIncome()
       }
     }
-  }
 
-  render() {
-    return (
-      <Router>
-        <div className="App">
-          <Switch>
-            <Route exact path='/'>
-              {(this.state.sorted)?<Loaded company={this.state.companies} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
-            </Route>
-            <Route exact path='/companies-income/'>
-              {(this.state.sorted)?<Loaded company={this.state.companies} numberOfItems={this.state.numberOfItems} />:<LoadingScreen />}
-            </Route>
-            <Route path='/company/:id'>
-              {(this.state.sorted)?<Company data={[this.state.companies, this.state.incomes]} />:<LoadingScreen />}
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    )
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [companies, incomes])
+
+  return(
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route exact path='/'>
+            {(sorted)?<Loaded company={companies} numberOfItems={numberOfItems} />:<LoadingScreen />}
+          </Route>
+          <Route exact path='/companies-income/'>
+            {(sorted)?<Loaded company={companies} numberOfItems={numberOfItems} />:<LoadingScreen />}
+          </Route>
+          <Route path='/company/:id'>
+            {(sorted)?<Company data={[companies, incomes]} />:<LoadingScreen />}
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  )
 }
 
 export default App;

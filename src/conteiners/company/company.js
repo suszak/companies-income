@@ -76,25 +76,24 @@ const Company = ({data}) => {
         }
     }
 
-    useEffect((prevProps, prevState) => {
-        if(!prevState) {
-            if(incomes.length === 0)
-                setIncomes(filterTable(data[1]))
-            if(companyInfo.length === 0)
-                setCompanyInfo(filterTable(data[0]))
-            if(incomes.length > 0){
-                countTotalIncomes()
-                countIncomes(startDate, endDate)
-                const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' })
-                const [{ value: monthStart },,{ value: dayStart },,{ value: yearStart }] = dateTimeFormat.formatToParts(startDate)
-                const [{ value: monthEnd },,{ value: dayEnd },,{ value: yearEnd }] = dateTimeFormat.formatToParts(endDate)
-                document.querySelector('#startDate').value = `${yearStart}-${monthStart}-${dayStart}`
-                document.querySelector('#endDate').value = `${yearEnd}-${monthEnd}-${dayEnd}`
-            }
+    useEffect(() => {
+        if(incomes.length === 0)
+            setIncomes(filterTable(data[1]))
+        if(companyInfo.length === 0)
+            setCompanyInfo(filterTable(data[0]))
+        if(incomes.length > 0){
+            countTotalIncomes()
+            countIncomes(startDate, endDate)
+            const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' })
+            const [{ value: monthStart },,{ value: dayStart },,{ value: yearStart }] = dateTimeFormat.formatToParts(startDate)
+            const [{ value: monthEnd },,{ value: dayEnd },,{ value: yearEnd }] = dateTimeFormat.formatToParts(endDate)
+            document.querySelector('#startDate').value = `${yearStart}-${monthStart}-${dayStart}`
+            document.querySelector('#endDate').value = `${yearEnd}-${monthEnd}-${dayEnd}`
         }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, companyInfo, incomes, startDate, endDate])
+
     return(
         <section className='company'>
             {(companyInfo.length > 0 && incomes.length > 0)?(
