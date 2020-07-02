@@ -43,7 +43,7 @@ const Company = ({data}) => {
     }
 
     const countIncomes = (startDate, endDate) => {
-        if(startDate < endDate) {
+        if(startDate <= endDate) {
             const tempIncomes = incomes[0].incomes
             const array = tempIncomes.filter(el => new Date(el.date) >= startDate && new Date(el.date) <= endDate)
             let sum = 0
@@ -54,10 +54,26 @@ const Company = ({data}) => {
                     return el
                 })
                 avg = sum/array.length
-            }            
+            }
             setAvg(avg.toFixed(2))
             setSum(sum.toFixed(2))
-        } else alert('Start date is earlier than end date')
+        } else {
+            setEndDate(startDate)
+            const tempIncomes = incomes[0].incomes
+            const array = tempIncomes.filter(el => new Date(el.date) >= startDate && new Date(el.date) <= endDate)
+            let sum = 0
+            let avg = 0
+            if(array.length > 0) {
+                array.map((el) => {
+                    sum += parseFloat(el.value)
+                    return el
+                })
+                avg = sum/array.length
+            }
+            setAvg(avg.toFixed(2))
+            setSum(sum.toFixed(2))
+            alert('Start date is earlier than end date (end date automatically changed to start date)')
+        }
     }
 
     useEffect((prevProps, prevState) => {
@@ -69,14 +85,14 @@ const Company = ({data}) => {
             if(incomes.length > 0){
                 countTotalIncomes()
                 countIncomes(startDate, endDate)
-                const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' }) 
+                const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' })
                 const [{ value: monthStart },,{ value: dayStart },,{ value: yearStart }] = dateTimeFormat.formatToParts(startDate)
                 const [{ value: monthEnd },,{ value: dayEnd },,{ value: yearEnd }] = dateTimeFormat.formatToParts(endDate)
                 document.querySelector('#startDate').value = `${yearStart}-${monthStart}-${dayStart}`
                 document.querySelector('#endDate').value = `${yearEnd}-${monthEnd}-${dayEnd}`
             }
         }
-          
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, companyInfo, incomes, startDate, endDate])
     return(
