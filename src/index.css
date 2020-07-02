@@ -1,27 +1,31 @@
 @font-face {
-    font-family: 'Jost';
-    src:  local('Jost');
-    src:  url('./fonts/jost/jost-variablefont_italwght-webfont.eot');
-    src:  url('./fonts/jost/jost-variablefont_italwght-webfont.eot?#iefix') format('embedded-opentype'),
-          url('./fonts/jost/Jost-VariableFont_wght.ttf') format('truetype'),
-          url('./fonts/jost/jost-variablefont_italwght-webfont.woff2') format('woff2'),
-          url('./fonts/jost/jost-variablefont_italwght-webfont.woff') format('woff'),
-          url('./fonts/jost/jost-variablefont_italwght-webfont.svg#jostregular') format('svg');
-    font-style: normal;
-    font-weight: normal;
-  }
-  
-  :root {
-    font-size: 10px;
-    overflow: hidden;
-  }
-  
-  *, *::after, *::before {
-    box-sizing: border-box;
-    color: white;
-    font-family: Jost;
-    font-weight: normal;
-    margin: 0;
-    padding: 0;
-    user-select: none;
-  }
+  font-family: "Jost";
+  src: local("Jost");
+  src: url("./fonts/jost/jost-variablefont_italwght-webfont.eot");
+  src: url("./fonts/jost/jost-variablefont_italwght-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    url("./fonts/jost/Jost-VariableFont_wght.ttf") format("truetype"),
+    url("./fonts/jost/jost-variablefont_italwght-webfont.woff2") format("woff2"),
+    url("./fonts/jost/jost-variablefont_italwght-webfont.woff") format("woff"),
+    url("./fonts/jost/jost-variablefont_italwght-webfont.svg#jostregular")
+      format("svg");
+  font-style: normal;
+  font-weight: normal;
+}
+
+:root {
+  font-size: 10px;
+  overflow: hidden;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  color: white;
+  font-family: Jost;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}

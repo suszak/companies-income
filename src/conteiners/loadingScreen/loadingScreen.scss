@@ -1,89 +1,90 @@
 .loadingScreen {
-    align-items: center;
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
-    position: relative;
-    width: 100%;
-    z-index: 1;
+  align-items: center;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  z-index: 1;
 
-    &__title {
-        font-size: 4rem;
+  &__title {
+    font-size: 4rem;
+  }
+
+  &__info {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  &__animation {
+    margin-top: 15px;
+    div {
+      animation: 2.2s loading infinite ease-in-out both;
+      background-color: white;
+      border: none;
+      border-radius: 50%;
+      display: inline-block;
+      height: 20px;
+      margin-right: 10px;
+      width: 20px;
+
+      &:last-child {
+        margin: 0;
+      }
+
+      &:nth-child(even) {
+        background-color: yellow;
+      }
     }
 
-    &__info {
-        font-size: 1.5rem;
-        text-align: center;
+    .element2 {
+      animation-delay: 0.2s;
     }
 
-    &__animation {
-        margin-top: 15px;
-        div {
-            animation: 2.2s loading infinite ease-in-out both;
-            background-color: white;
-            border: none;
-            border-radius: 50%;
-            display: inline-block;
-            height: 20px;
-            margin-right: 10px;
-            width: 20px;
-
-            &:last-child {
-                margin: 0;
-            }
-            
-            &:nth-child(even){
-                background-color: yellow;
-            }
-        }
-
-        .element2 {
-            animation-delay: .2s;
-        }
-
-        .element3 {
-            animation-delay: .4s;
-        }
-
-        .element4 {
-            animation-delay: .6s;
-        }
-
-        .element5 {
-            animation-delay: .8s;
-        }
+    .element3 {
+      animation-delay: 0.4s;
     }
+
+    .element4 {
+      animation-delay: 0.6s;
+    }
+
+    .element5 {
+      animation-delay: 0.8s;
+    }
+  }
 }
 
 .background {
-    height: 0;
-    opacity: 0.4;
-    position: absolute;
-    width: 0;
-    z-index: -1;
+  height: 0;
+  opacity: 0.4;
+  position: absolute;
+  width: 0;
+  z-index: -1;
 
-    &__first {
-        border-right: 40vw solid transparent;
-        border-top: 50vh solid yellow;
-        left: 0;
-        top: 0;
-    }
+  &__first {
+    border-right: 40vw solid transparent;
+    border-top: 50vh solid yellow;
+    left: 0;
+    top: 0;
+  }
 
-    &__second {
-        border-bottom: 50vh solid yellow;
-        border-left: 40vw solid transparent;
-        bottom: 0;
-        right: 0;
-    }
+  &__second {
+    border-bottom: 50vh solid yellow;
+    border-left: 40vw solid transparent;
+    bottom: 0;
+    right: 0;
+  }
 }
 
 @keyframes loading {
-    0%,100% {
-        transform: scale(0);
-    }
-    50%{
-        transform: scale(1);
-    }
+  0%,
+  100% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
 }

@@ -53,23 +53,23 @@
 }
 
 .loadingScreen__animation .element2 {
-  -webkit-animation-delay: .2s;
-          animation-delay: .2s;
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s;
 }
 
 .loadingScreen__animation .element3 {
-  -webkit-animation-delay: .4s;
-          animation-delay: .4s;
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s;
 }
 
 .loadingScreen__animation .element4 {
-  -webkit-animation-delay: .6s;
-          animation-delay: .6s;
+  -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
 }
 
 .loadingScreen__animation .element5 {
-  -webkit-animation-delay: .8s;
-          animation-delay: .8s;
+  -webkit-animation-delay: 0.8s;
+          animation-delay: 0.8s;
 }
 
 .background {
@@ -95,7 +95,8 @@
 }
 
 @-webkit-keyframes loading {
-  0%, 100% {
+  0%,
+  100% {
     -webkit-transform: scale(0);
             transform: scale(0);
   }
@@ -106,7 +107,8 @@
 }
 
 @keyframes loading {
-  0%, 100% {
+  0%,
+  100% {
     -webkit-transform: scale(0);
             transform: scale(0);
   }

@@ -1,14 +1,14 @@
 .incomeTable {
-    width: 100%;
+  width: 100%;
 
-    .table {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+  .table {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-        &__error {
-            font-size: 3rem;
-        }
+    &__error {
+      font-size: 3rem;
     }
+  }
 }
