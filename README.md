@@ -3,11 +3,15 @@ live version: [https://suszak.github.io/companies-income/](https://suszak.github
 
 ## Table of contents
 * [General info](#general-info)
+* [Status](#status)
 * [Technologies](#technologies)
 * [How to run locally](#how-to-run)
 
 ## General info
 This website fetch information about companies and their incomes from API. We can filter results by company name. We can also see more informations about incomes.
+
+## Status
+Done
 
 ## Technologies
 Project is created with:
