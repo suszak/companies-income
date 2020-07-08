@@ -54,26 +54,18 @@ const App = () => {
 
   //  Count total incomes and insert them to each object in companies
   const countTotalIncomes = () => {
-    const newCompanies = [];
-    companies.map((company) => {
-      let sum = 0;
-      const income = incomes.find((el) => el.id === company.id);
+    const newCompanies = companies.map((company) => {
+      const income = incomes.find((income) => income.id === company.id)
+      const sum = income.incomes.reduce((previous, current) => {
+        return previous + parseFloat(current.value)
+      }, 0)
 
-      income.incomes.map((el) => {
-        sum += parseFloat(el.value);
-        return el;
-      });
-      newCompanies.push({
-        ...company,
-        totalIncome: sum.toFixed(2),
-      });
+      return {...company, totalIncome: sum.toFixed(2)}
+    })
 
-      return company;
-    });
-
-    setCompanies(newCompanies);
-    setLoading(false);
-  };
+    setCompanies(newCompanies)
+    setLoading(false)
+  }
 
   //  Sorting state.companies by totalIncome desc
   const sortArrayByTotalIncome = () => {
