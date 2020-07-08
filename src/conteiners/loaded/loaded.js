@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./loaded.css";
 import IncomeTable from "../incomeTable/incomeTable";
 import Pages from "../../components/pages/pages";
+import { filter } from "../../helper/filterResults.js";
 
 const Loaded = ({ company, numberOfItems }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,22 +18,6 @@ const Loaded = ({ company, numberOfItems }) => {
   //  Change page
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
-
-  //  Filter results
-  const filter = () => {
-    const filterValue = document.querySelector("#filter").value;
-    if (filterValue.length > 0) {
-      const result = company.filter(
-        (company) =>
-          company.name.toUpperCase().indexOf(filterValue.toUpperCase()) !== -1
-      );
-      setDataToShow(result);
-      setCurrentPage(1);
-    } else {
-      setDataToShow(company);
-      setCurrentPage(1);
-    }
   };
 
   useEffect(() => {
@@ -53,7 +38,7 @@ const Loaded = ({ company, numberOfItems }) => {
           <input
             type="text"
             id="filter"
-            onChange={filter}
+            onChange={() => filter(company, setDataToShow, setCurrentPage)}
             className="search__input"
             placeholder="Type company name here..."
           ></input>

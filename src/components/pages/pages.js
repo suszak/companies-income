@@ -1,32 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./pages.css";
 
 const Pages = ({ currentPage, totalPages, paginate }) => {
-  const pageNumbers = [];
-  if (totalPages >= 5) {
-    if (currentPage - 2 > 1 && currentPage + 2 < totalPages) {
-      for (let i = currentPage - 2; i <= currentPage + 2; i++) {
-        pageNumbers.push(i);
+  // let pageNumbers = [];
+  const [pageNumbers, setPageNumbers] = useState([]);
+
+  useEffect(() => {
+    if (totalPages >= 5) {
+      if (currentPage - 2 > 1 && currentPage + 2 < totalPages) {
+        setPageNumbers(
+          Array(5)
+            .fill(currentPage - 2)
+            .map((number, index) => number + index)
+        );
+      } else if (currentPage - 2 <= 1 && currentPage + 1 < totalPages) {
+        setPageNumbers(
+          Array(5)
+            .fill(1)
+            .map((number, index) => number + index)
+        );
+      } else if (currentPage - 2 > 1 && currentPage + 2 >= totalPages) {
+        setPageNumbers(
+          Array(5)
+            .fill(totalPages - 4)
+            .map((number, index) => number + index)
+        );
       }
-    } else if (currentPage - 2 <= 1 && currentPage + 1 < totalPages) {
-      for (let i = 1; i <= 5; i++) {
-        pageNumbers.push(i);
-      }
-    } else if (currentPage - 2 > 1 && currentPage + 2 >= totalPages) {
-      for (let i = totalPages - 4; i <= totalPages; i++) {
-        pageNumbers.push(i);
-      }
+    } else {
+      setPageNumbers(
+        Array(totalPages)
+          .fill(1)
+          .map((number, index) => number + index)
+      );
     }
-  } else {
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i);
-    }
-  }
+  }, [currentPage, totalPages]);
 
   return (
     <nav>
       <ul className="pages">
-        {pageNumbers.map((number, index) => (
+        {pageNumbers.map((number) => (
           <li
             onClick={() => paginate(number)}
             key={number}

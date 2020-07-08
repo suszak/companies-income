@@ -1,13 +1,8 @@
 import React, { useEffect } from "react";
 import "./loadingScreen.css";
+import { slowConnection } from "../../helper/infoAboutSlowConnection.js"
 
 const LoadingScreen = () => {
-  //  adding information on loading screen
-  const slowConnection = () => {
-    document.querySelector(".loadingScreen__info").innerText =
-      "Your connection is slow, please wait a moment";
-  };
-
   useEffect(() => {
     //  set timeout on mount
     let slowConnectionTimeout = setTimeout(slowConnection, 16000);
