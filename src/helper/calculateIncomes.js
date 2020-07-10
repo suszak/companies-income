@@ -1,3 +1,5 @@
+import { store } from "react-notifications-component";
+
 const calculateSumAndAvg = (setSum, setAvg, incomes, startDate, endDate) => {
   const tempIncomes = incomes[0].incomes;
   const array = tempIncomes.filter(
@@ -29,9 +31,34 @@ export const calculateIncomes = (
     setEndDate(startDate);
 
     calculateSumAndAvg(setSum, setAvg, incomes, startDate, endDate);
-    alert(
-      "Start date is earlier than end date (end date automatically changed to start date)"
-    );
+
+    store.addNotification({
+      title: "Date changed",
+      message: "End date automatically changed to start date.",
+      type: "info",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: {
+        duration: 5000,
+        onScreen: true,
+      },
+    });
+
+    store.addNotification({
+      title: "Bad dates",
+      message: "Start date is earlier than end date!",
+      type: "danger",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: {
+        duration: 5000,
+        onScreen: true,
+      },
+    });
   }
 };
 

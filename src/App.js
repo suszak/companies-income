@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 import "./App.css";
 import LoadingScreen from "./conteiners/loadingScreen/loadingScreen";
 import Loaded from "./conteiners/loaded/loaded";
@@ -62,6 +64,7 @@ const App = () => {
 
   return (
     <Router>
+      <ReactNotification />
       <div className="App">
         <Switch>
           <Route exact path="/">
