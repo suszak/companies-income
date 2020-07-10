@@ -34,12 +34,10 @@ export const calculateIncomes = (
 
     store.addNotification({
       title: "Date changed",
-      message: "End date automatically changed to start date.",
+      message: "End date automatically set as start date.",
       type: "info",
       insert: "top",
       container: "top-right",
-      animationIn: ["animated", "fadeIn"],
-      animationOut: ["animated", "fadeOut"],
       dismiss: {
         duration: 5000,
         onScreen: true,
@@ -52,8 +50,6 @@ export const calculateIncomes = (
       type: "danger",
       insert: "top",
       container: "top-right",
-      animationIn: ["animated", "fadeIn"],
-      animationOut: ["animated", "fadeOut"],
       dismiss: {
         duration: 5000,
         onScreen: true,

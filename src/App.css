@@ -4,3 +4,8 @@
   min-width: 350px;
   width: 100vw;
 }
+
+/* Disable timer in notifications from react-notification-component */
+.timer {
+  opacity: 0;
+}
